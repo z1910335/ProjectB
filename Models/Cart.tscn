@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://4sowfqa7gpjs"]
+[gd_scene load_steps=4 format=3 uid="uid://4sowfqa7gpjs"]
 
 [ext_resource type="Script" path="res://Models/Cart.cs" id="1_k2f8w"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_dq1x5"]
+size = Vector3(0.08, 0.08, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2xrak"]
+size = Vector3(1.4, 0.08, 0.08)
+
 [node name="Cart" type="Node3D"]
 script = ExtResource("1_k2f8w")
+
+[node name="CartFrame" type="Node3D" parent="."]
+
+[node name="AxleBar" type="MeshInstance3D" parent="CartFrame"]
+mesh = SubResource("BoxMesh_dq1x5")
+
+[node name="LongBar" type="MeshInstance3D" parent="CartFrame"]
+mesh = SubResource("BoxMesh_2xrak")
