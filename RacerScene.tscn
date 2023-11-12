@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmgekiuj1n2lh"]
+[gd_scene load_steps=9 format=3 uid="uid://cmgekiuj1n2lh"]
 
 [ext_resource type="Script" path="res://RacerScene.cs" id="1_hwg7e"]
 [ext_resource type="Texture2D" uid="uid://van2hvxffdj2" path="res://Textures/kennyDK4.png" id="2_dhhry"]
+[ext_resource type="PackedScene" uid="uid://blxgponho1qji" path="res://Utils/CamRig.tscn" id="3_4gt1t"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_et1ss"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -36,3 +37,6 @@ environment = SubResource("Environment_30qf6")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_4c2am")
+
+[node name="CamRig" parent="." instance=ExtResource("3_4gt1t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.958197, 0)
