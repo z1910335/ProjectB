@@ -1,6 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://cmgekiuj1n2lh"]
+[gd_scene load_steps=8 format=3 uid="uid://cmgekiuj1n2lh"]
 
 [ext_resource type="Script" path="res://RacerScene.cs" id="1_hwg7e"]
+[ext_resource type="Texture2D" uid="uid://van2hvxffdj2" path="res://Textures/kennyDK4.png" id="2_dhhry"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_et1ss"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_f7awn"]
+sky_material = SubResource("ProceduralSkyMaterial_et1ss")
+
+[sub_resource type="Environment" id="Environment_30qf6"]
+background_mode = 2
+sky = SubResource("Sky_f7awn")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hn27t"]
+albedo_texture = ExtResource("2_dhhry")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4c2am"]
+material = SubResource("StandardMaterial3D_hn27t")
+size = Vector2(10, 10)
 
 [node name="RacerScene" type="Node3D"]
 script = ExtResource("1_hwg7e")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 8, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_30qf6")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_4c2am")
