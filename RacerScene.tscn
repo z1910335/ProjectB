@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmgekiuj1n2lh"]
+
+[ext_resource type="Script" path="res://RacerScene.cs" id="1_hwg7e"]
+
+[node name="RacerScene" type="Node3D"]
+script = ExtResource("1_hwg7e")
