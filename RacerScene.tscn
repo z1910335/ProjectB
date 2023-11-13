@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cmgekiuj1n2lh"]
+[gd_scene load_steps=10 format=3 uid="uid://cmgekiuj1n2lh"]
 
 [ext_resource type="Script" path="res://RacerScene.cs" id="1_hwg7e"]
 [ext_resource type="Texture2D" uid="uid://van2hvxffdj2" path="res://Textures/kennyDK4.png" id="2_dhhry"]
+[ext_resource type="PackedScene" uid="uid://4sowfqa7gpjs" path="res://Models/Cart.tscn" id="2_olq67"]
 [ext_resource type="PackedScene" uid="uid://blxgponho1qji" path="res://Utils/CamRig.tscn" id="3_4gt1t"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_et1ss"]
@@ -34,6 +35,8 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_30qf6")
+
+[node name="Cart" parent="." instance=ExtResource("2_olq67")]
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_4c2am")
