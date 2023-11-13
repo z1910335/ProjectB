@@ -6,6 +6,8 @@ public partial class Cart : Node3D
 	//Node3D cartFrame;
 	// MeshInstance3D axleBar;
 	// BoxMesh axleBarMesh;
+	Node3D wheelFrameL;
+	Node3D wheelFrameR;
 
 	float wheelRad;        // rear wheel radius
 	float wheelRadS;       // radius of steered wheel
@@ -41,6 +43,8 @@ public partial class Cart : Node3D
 
 		//axleBar = GetNode<MeshInstance3D>("CartFrame/AxleBar");
 		//cartFrame = GetNode<Node3D>("CartFrame");
+		wheelFrameL = GetNode<Node3D>("CartFrame/WheelFrameL");
+		wheelFrameR = GetNode<Node3D>("CartFrame/WheelFrameR");
 		BuildModel();
 		// axleBarMesh = (BoxMesh)axleBar.Mesh;
 		// axleBarMesh.Size = new Vector3(barWidth, barWidth, axleBarLen);
@@ -79,6 +83,27 @@ public partial class Cart : Node3D
 		TorusMesh tireMeshL = (TorusMesh)tireL.Mesh;
 		tireMeshL.OuterRadius = wheelRad;
 		tireMeshL.InnerRadius = wheelRad - tireWd;
+		MeshInstance3D wheelL = 
+			GetNode<MeshInstance3D>("CartFrame/WheelFrameL/Wheel");
+		CylinderMesh wheelMeshL = (CylinderMesh)wheelL.Mesh;
+		wheelMeshL.TopRadius = wheelRad - 0.5f*tireWd;
+		wheelMeshL.BottomRadius = wheelRad - 0.5f*tireWd;
+		wheelMeshL.Height = wheelWd;
+		wheelFrameL.Position = new Vector3(0.0f, 0.0f, -0.5f*wheelSep);
+
+		// right wheel
+		MeshInstance3D tireR = 
+			GetNode<MeshInstance3D>("CartFrame/WheelFrameR/Tire");
+		TorusMesh tireMeshR = (TorusMesh)tireR.Mesh;
+		tireMeshR.OuterRadius = wheelRad;
+		tireMeshR.InnerRadius = wheelRad - tireWd;
+		MeshInstance3D wheelR = 
+			GetNode<MeshInstance3D>("CartFrame/WheelFrameR/Wheel");
+		CylinderMesh wheelMeshR = (CylinderMesh)wheelR.Mesh;
+		wheelMeshR.TopRadius = wheelRad - 0.5f*tireWd;
+		wheelMeshR.BottomRadius = wheelRad - 0.5f*tireWd;
+		wheelMeshR.Height = wheelWd;
+		wheelFrameR.Position = new Vector3(0.0f, 0.0f, 0.5f*wheelSep);
 
 		// Shift cart frame
 		Node3D cartFrame = GetNode<Node3D>("CartFrame");
