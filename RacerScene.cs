@@ -7,6 +7,7 @@ public partial class RacerScene : Node3D
 	float longitudeDeg;
 	float latitudeDeg;
 	float camDist;
+	float camFOV;
 	Vector3 camTg;       // coords of camera target
 
 	Cart cart;           // model of the cart
@@ -28,6 +29,7 @@ public partial class RacerScene : Node3D
 		longitudeDeg = 30.0f;
 		latitudeDeg = 20.0f;
 		camDist = 4.0f;
+		camFOV = 55.0f;
 
 		camTg = new Vector3(0.0f, 1.0f, 0.0f);
 		cam = GetNode<CamRig>("CamRig");
@@ -35,7 +37,7 @@ public partial class RacerScene : Node3D
 		cam.LatitudeDeg = latitudeDeg;
 		cam.Distance = camDist;
 		cam.Target = camTg;
-		//cam.FOVDeg = camFOV;
+		cam.FOVDeg = camFOV;
 
 		cart = GetNode<Cart>("Cart");
 		wheelRad = 0.75;
