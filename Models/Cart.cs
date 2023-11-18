@@ -153,9 +153,17 @@ public partial class Cart : Node3D
 	}
 
 	//------------------------------------------------------------------------
+	// SetSteerAngle
+	//------------------------------------------------------------------------
+	public void SetSteerAngle(float stAngle)
+	{
+		
+		steerFrame.Rotation = new Vector3(0.0f, stAngle, 0.0f);
+	}
+
+	//------------------------------------------------------------------------
 	// Setters:
 	//------------------------------------------------------------------------
-
 	public float WheelRadius
 	{
 		set
@@ -232,7 +240,7 @@ public partial class Cart : Node3D
 	public float SteerAngle
 	{
 		set{
-			
+			SetSteerAngle(value);
 		}
 	}
 }

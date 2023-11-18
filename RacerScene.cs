@@ -1,3 +1,6 @@
+//============================================================================
+// RacerScene
+//============================================================================
 using Godot;
 using System;
 
@@ -22,7 +25,11 @@ public partial class RacerScene : Node3D
 	float tireThkS;      // thickness of steered wheel.
 	float frameThk;      // frame thickness
 
-	// Called when the node enters the scene tree for the first time.
+	double steerSig;     // steer signal from pilot
+
+	//------------------------------------------------------------------------
+	// _Ready: Called when the node enters the scene tree for the first time.
+	//------------------------------------------------------------------------
 	public override void _Ready()
 	{
 		GD.Print("RacerScene");
@@ -51,8 +58,31 @@ public partial class RacerScene : Node3D
 		tireThkS = 0.2f * (float)wheelRadS;
 	}
 
+	//------------------------------------------------------------------------
+	// _Process
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	//------------------------------------------------------------------------
 	public override void _Process(double delta)
 	{
+		ProcessPilotInput();
+
+		float st = -50.0f * (float)steerSig;
+		cart.SteerAngle = Mathf.DegToRad(st);
 	}
+
+	//------------------------------------------------------------------------
+	// ProcessPilotInput:
+	//------------------------------------------------------------------------
+	private void ProcessPilotInput()
+	{
+		//deltaSig = (double)(Input.GetActionStrength("ui_left") -
+		//	Input.GetActionStrength("ui_right"));
+
+		steerSig = (double)Input.GetJoyAxis(0, JoyAxis.LeftX);
+		if(Math.Abs(steerSig) < 0.01)
+			steerSig = 0.0;
+
+		//GD.Print(steerSig);
+	}
+
 }
