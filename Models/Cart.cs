@@ -229,6 +229,14 @@ public partial class Cart : Node3D
 		}
 	}
 
+	public float SteeredWheelWidth
+	{
+		set{
+			if(value > 0.0f)
+				wheelWdS = value;
+		}
+	}
+
 	public float FrameBarWidth
 	{
 		set{

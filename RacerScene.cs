@@ -20,9 +20,10 @@ public partial class RacerScene : Node3D
 	double baseLen;      // base length, from rear wheel axle to steer axis.
 	double casterLen;    // length of caster
 	double cgDist;       // longit distance from wheel axle to CG
-	float tireThk;       // tire thickness
-	float wheelThk;      // wheel thickness
-	float tireThkS;      // thickness of steered wheel.
+	float tireWd;        // tire width
+	float wheelWd;      // wheel width
+	float tireWdS;      // thickness of steered wheel
+	float wheelWdS;     // width of steered wheel
 	float frameThk;      // frame thickness
 
 	double steerSig;     // steer signal from pilot
@@ -47,15 +48,17 @@ public partial class RacerScene : Node3D
 		cam.FOVDeg = camFOV;
 
 		cart = GetNode<Cart>("Cart");
-		wheelRad = 0.75;
-		wheelRadS = 0.2;
-		wheelSep = 1.0;
-		baseLen = 1.3;
-		casterLen = 0.3;
+		wheelRad = 0.5 * 0.75;  cart.WheelRadius = (float)wheelRad;
+		wheelRadS = 0.2;        cart.SteeredWheelRadius = (float)wheelRadS;
+		wheelSep = 1.0;         cart.WheelSeparation = (float)wheelSep;
+		baseLen = 1.3;			cart.BaseLength = (float)baseLen;
+		casterLen = 0.3; 		cart.CasterLength = (float)casterLen;
 		cgDist = 0.6;
-		tireThk = 0.08f;
-		wheelThk = 0.5f * tireThk;
-		tireThkS = 0.2f * (float)wheelRadS;
+		tireWd = 0.08f;         cart.TireWidth = tireWd;
+		wheelWd = 0.5f * tireWd; 	cart.WheelWidth = wheelWd;
+		tireWdS = 0.05f;		cart.SteeredTireWidth = tireWdS;
+		wheelWdS = 0.7f * tireWdS;	cart.SteeredWheelWidth = wheelWdS;
+		frameThk = 0.08f;		cart.FrameBarWidth = frameThk;
 	}
 
 	//------------------------------------------------------------------------
