@@ -28,12 +28,13 @@ public partial class RacerScene : Node3D
 
 	double steerSig;     // steer signal from pilot
 
+	RollerRacer racer;   // simulation of the Roller Racer
+
 	//------------------------------------------------------------------------
 	// _Ready: Called when the node enters the scene tree for the first time.
 	//------------------------------------------------------------------------
 	public override void _Ready()
 	{
-		GD.Print("RacerScene");
 		longitudeDeg = 30.0f;
 		latitudeDeg = 20.0f;
 		camDist = 4.0f;
@@ -49,7 +50,7 @@ public partial class RacerScene : Node3D
 
 		cart = GetNode<Cart>("Cart");
 		wheelRad = 0.5 * 0.75;  cart.WheelRadius = (float)wheelRad;
-		wheelRadS = 0.2;        cart.SteeredWheelRadius = (float)wheelRadS;
+		wheelRadS = 0.15;       cart.SteeredWheelRadius = (float)wheelRadS;
 		wheelSep = 1.0;         cart.WheelSeparation = (float)wheelSep;
 		baseLen = 1.3;			cart.BaseLength = (float)baseLen;
 		casterLen = 0.3; 		cart.CasterLength = (float)casterLen;
@@ -59,6 +60,9 @@ public partial class RacerScene : Node3D
 		tireWdS = 0.05f;		cart.SteeredTireWidth = tireWdS;
 		wheelWdS = 0.7f * tireWdS;	cart.SteeredWheelWidth = wheelWdS;
 		frameThk = 0.08f;		cart.FrameBarWidth = frameThk;
+		cart.BuildModel();
+
+		racer = new RollerRacer();    // simulation
 	}
 
 	//------------------------------------------------------------------------
