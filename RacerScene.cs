@@ -3,6 +3,7 @@
 //============================================================================
 using Godot;
 using System;
+using System.Linq.Expressions;
 
 public partial class RacerScene : Node3D
 {
@@ -25,6 +26,8 @@ public partial class RacerScene : Node3D
 	float tireWdS;      // thickness of steered wheel
 	float wheelWdS;     // width of steered wheel
 	float frameThk;      // frame thickness
+	double m;            // mass of racer
+	double rGyr;         // radius of gyration
 
 	double steerSig;     // steer signal from pilot
 
@@ -62,6 +65,8 @@ public partial class RacerScene : Node3D
 		frameThk = 0.08f;		cart.FrameBarWidth = frameThk;
 		cart.BuildModel();
 
+		m = 25.0;
+		rGyr = 0.3;
 		racer = new RollerRacer();    // simulation
 	}
 

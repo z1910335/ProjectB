@@ -3,6 +3,9 @@
 //       Equations of motion are derived in class notes.
 //============================================================================
 using System;
+using System.Data;
+using System.Data.Common;
+using System.Net.WebSockets;
 
 public class RollerRacer : Simulator
 {
@@ -23,6 +26,9 @@ public class RollerRacer : Simulator
     public RollerRacer() : base(11)
     {
         SetInertia(25.0 /*mass*/, 0.3 /*radius of gyration*/);
+        SetGeometry(1.3 /*wheel base*/, 0.6 /* cg dist from axle*/,
+            0.3 /*caster dist*/, 1.0 /*wheel sep*/, 0.5*0.75 /*Rwheel radius*/,
+            0.15 /*steered wheel radius*/);
 
         x[0] = 0.0;   // x coordinate of center of mass
         x[1] = 0.0;   // xDot, time derivative of x
@@ -86,5 +92,36 @@ public class RollerRacer : Simulator
 
         m = mm;
         Ig = m*rgyr*rgyr;
+    }
+
+    //------------------------------------------------------------------------
+    // SetGeometry: Sets the geometry of the vehicle.
+    //    wsb: distance between rear axle and steer axis
+    //    dcg: distance from wheel axle to center of mass
+    //    dcst: length of the caster
+    //    wid: distance between rear wheels
+    //    wRad: radius of rear wheel
+    //    wRadS: radius of steered wheel
+    //------------------------------------------------------------------------
+    public void SetGeometry(double wsb, double dcg, double dcst, double wid, 
+        double wRad, double wRadS)
+    {
+        // check lower bounds
+        if(wsb < 0.01) return;
+        if(dcg <= 0.0) return;
+        if(dcst < 0.0) return;
+        if(wid < 0.05) return;
+        if(wRad < 0.05) return;
+        if(wRadS < 0.05) return;
+
+        if(wsb-dcst < dcg) return; //cg must be btw rear axle and steer contact
+
+        b = dcg;
+        c = 0.5*wid;
+        d = dcst;
+        h = wsb-dcg;
+
+        rW = wRad;
+        rWs = wRadS;
     }
 }
