@@ -3,9 +3,6 @@
 //       Equations of motion are derived in class notes.
 //============================================================================
 using System;
-using System.Data;
-using System.Data.Common;
-using System.Net.WebSockets;
 
 public class RollerRacer : Simulator
 {
@@ -22,6 +19,7 @@ public class RollerRacer : Simulator
 
     double kPDelta;  // proportional gain for steer filter
     double kDDelta;  // derivative gain for steer filter
+    double deltaDes; // desired steer angle
 
     public RollerRacer() : base(11)
     {
@@ -29,6 +27,8 @@ public class RollerRacer : Simulator
         SetGeometry(1.3 /*wheel base*/, 0.6 /* cg dist from axle*/,
             0.3 /*caster dist*/, 1.0 /*wheel sep*/, 0.5*0.75 /*Rwheel radius*/,
             0.15 /*steered wheel radius*/);
+        kPDelta = 100.0;
+        kDDelta = 10.0;
 
         x[0] = 0.0;   // x coordinate of center of mass
         x[1] = 0.0;   // xDot, time derivative of x
@@ -73,8 +73,8 @@ public class RollerRacer : Simulator
         ff[6] = 0.0;
         ff[7] = 0.0;
         ff[8] = 0.0;
-        ff[9] = 0.0;
-        ff[10] = 0.0;
+        ff[9] = deltaDot;
+        ff[10] = -kDDelta*deltaDot -kPDelta*(delta - deltaDes);
     }
 
     //------------------------------------------------------------------------
@@ -123,5 +123,65 @@ public class RollerRacer : Simulator
 
         rW = wRad;
         rWs = wRadS;
+    }
+
+    //------------------------------------------------------------------------
+    // Getters/Setters
+    //------------------------------------------------------------------------
+
+    public double SteerAngleSignal
+    {
+        set{
+            deltaDes = value;
+        }
+    }
+
+    public double SteerAngle
+    {
+        get{
+            return x[9];
+        }
+    }
+
+    public double xG
+    {
+        get{
+            return x[0];
+        }
+    }
+
+    public double zG
+    {
+        get{
+            return x[2];
+        }
+    }
+
+    public double Heading
+    {
+        get{
+            return x[4];
+        }
+    }
+
+    public double WheelAngleL
+    {
+        get{
+            return x[6];
+        }
+    }
+
+    public double WheelAngleR
+    {
+        get{
+            return x[7];
+        }
+    }
+
+    public double WheelAngleF
+    {
+        get{
+            return x[8];
+        }
     }
 }

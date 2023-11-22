@@ -32,6 +32,7 @@ public partial class RacerScene : Node3D
 	double steerSig;     // steer signal from pilot
 
 	RollerRacer racer;   // simulation of the Roller Racer
+	double time;         // elapsed time
 
 	//------------------------------------------------------------------------
 	// _Ready: Called when the node enters the scene tree for the first time.
@@ -68,6 +69,7 @@ public partial class RacerScene : Node3D
 		m = 25.0;
 		rGyr = 0.3;
 		racer = new RollerRacer();    // simulation
+		time = 0.0;
 	}
 
 	//------------------------------------------------------------------------
@@ -76,16 +78,28 @@ public partial class RacerScene : Node3D
 	//------------------------------------------------------------------------
 	public override void _Process(double delta)
 	{
-		ProcessPilotInput();
-
-		float st = -50.0f * (float)steerSig;
-		cart.SteerAngle = Mathf.DegToRad(st);
+		
+		cart.SteerAngle = (float)racer.SteerAngle;
 	}
 
-	//------------------------------------------------------------------------
-	// ProcessPilotInput:
-	//------------------------------------------------------------------------
-	private void ProcessPilotInput()
+    //------------------------------------------------------------------------
+    // _PhysicsProcess
+    //------------------------------------------------------------------------
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+
+		ProcessPilotInput();
+		racer.SteerAngleSignal = (-50.0 * steerSig)*Math.PI/180.0;
+
+		racer.StepRK2(time,delta);
+		time += delta;
+    }
+
+    //------------------------------------------------------------------------
+    // ProcessPilotInput:
+    //------------------------------------------------------------------------
+    private void ProcessPilotInput()
 	{
 		//deltaSig = (double)(Input.GetActionStrength("ui_left") -
 		//	Input.GetActionStrength("ui_right"));
