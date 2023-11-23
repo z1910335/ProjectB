@@ -34,11 +34,14 @@ public partial class RacerScene : Node3D
 	RollerRacer racer;   // simulation of the Roller Racer
 	double time;         // elapsed time
 
+	UIPanelDisplay dataDisplay;
+
 	//------------------------------------------------------------------------
 	// _Ready: Called when the node enters the scene tree for the first time.
 	//------------------------------------------------------------------------
 	public override void _Ready()
 	{
+		// Set up the camera rig
 		longitudeDeg = 30.0f;
 		latitudeDeg = 20.0f;
 		camDist = 4.0f;
@@ -52,6 +55,21 @@ public partial class RacerScene : Node3D
 		cam.Target = camTg;
 		cam.FOVDeg = camFOV;
 
+		// set up the data display
+		dataDisplay = GetNode<UIPanelDisplay>("Control/MarginContainer/DataDisplay");
+		dataDisplay.SetNDisplay(5);
+		dataDisplay.SetLabel(0,"Roller Racer");
+		dataDisplay.SetValue(0,"");
+		dataDisplay.SetLabel(1,"Speed");
+		dataDisplay.SetValue(1,"---");
+		dataDisplay.SetLabel(2,"Slip Rate L");
+		dataDisplay.SetValue(2,"---");
+		dataDisplay.SetLabel(3,"Slip Rate R");
+		dataDisplay.SetValue(3,"---");
+		dataDisplay.SetLabel(4,"Slip Rate F");
+		dataDisplay.SetValue(4,"---");
+
+		// set up the cart model
 		cart = GetNode<Cart>("Cart");
 		wheelRad = 0.5 * 0.75;  cart.WheelRadius = (float)wheelRad;
 		wheelRadS = 0.15;       cart.SteeredWheelRadius = (float)wheelRadS;
@@ -66,6 +84,7 @@ public partial class RacerScene : Node3D
 		frameThk = 0.08f;		cart.FrameBarWidth = frameThk;
 		cart.BuildModel();
 
+		// set up the simulation
 		m = 25.0;
 		rGyr = 0.3;
 		racer = new RollerRacer();    // simulation
@@ -107,6 +126,13 @@ public partial class RacerScene : Node3D
 		steerSig = (double)Input.GetJoyAxis(0, JoyAxis.LeftX);
 		if(Math.Abs(steerSig) < 0.01)
 			steerSig = 0.0;
+
+		if(Input.IsActionPressed("ui_left")){
+			steerSig = -1.0;
+		}
+		if(Input.IsActionPressed("ui_right")){
+			steerSig = 1.0;
+		}
 
 		//GD.Print(steerSig);
 	}

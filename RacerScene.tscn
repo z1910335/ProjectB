@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmgekiuj1n2lh"]
+[gd_scene load_steps=11 format=3 uid="uid://cmgekiuj1n2lh"]
 
 [ext_resource type="Script" path="res://RacerScene.cs" id="1_hwg7e"]
 [ext_resource type="Texture2D" uid="uid://van2hvxffdj2" path="res://Textures/kennyDK4.png" id="2_dhhry"]
 [ext_resource type="PackedScene" uid="uid://4sowfqa7gpjs" path="res://Models/Cart.tscn" id="2_olq67"]
 [ext_resource type="PackedScene" uid="uid://blxgponho1qji" path="res://Utils/CamRig.tscn" id="3_4gt1t"]
+[ext_resource type="PackedScene" uid="uid://uuj16p5aw6lj" path="res://Utils/UIPanelDisplay.tscn" id="5_38med"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_et1ss"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -43,3 +44,21 @@ mesh = SubResource("PlaneMesh_4c2am")
 
 [node name="CamRig" parent="." instance=ExtResource("3_4gt1t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.958197, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_right = 151.0
+offset_bottom = 35.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="DataDisplay" parent="Control/MarginContainer" instance=ExtResource("5_38med")]
+layout_mode = 2
