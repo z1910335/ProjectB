@@ -212,6 +212,15 @@ public class RollerRacer : Simulator
         }
     }
 
+    public double KineticEnergy
+    {
+        get{
+            // ######## You have to write this part ################
+
+            return(-1.21212121);
+        }
+    }
+
     public double SlipRateFront
     {
         get{
