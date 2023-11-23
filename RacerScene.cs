@@ -111,7 +111,7 @@ public partial class RacerScene : Node3D
 		ProcessPilotInput();
 		racer.SteerAngleSignal = (-50.0 * steerSig)*Math.PI/180.0;
 
-		racer.StepRK2(time,delta);
+		racer.StepRK2(time,delta);  // You are going to use the RK4 integrator
 		time += delta;
     }
 
@@ -120,8 +120,6 @@ public partial class RacerScene : Node3D
     //------------------------------------------------------------------------
     private void ProcessPilotInput()
 	{
-		//deltaSig = (double)(Input.GetActionStrength("ui_left") -
-		//	Input.GetActionStrength("ui_right"));
 
 		steerSig = (double)Input.GetJoyAxis(0, JoyAxis.LeftX);
 		if(Math.Abs(steerSig) < 0.01)
@@ -134,7 +132,6 @@ public partial class RacerScene : Node3D
 			steerSig = 1.0;
 		}
 
-		//GD.Print(steerSig);
 	}
 
 }
