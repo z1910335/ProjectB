@@ -21,6 +21,8 @@ public class RollerRacer : Simulator
     double kDDelta;  // derivative gain for steer filter
     double deltaDes; // desired steer angle
 
+    bool simBegun;   // indicates whether simulation has begun
+
     public RollerRacer() : base(11)
     {
         SetInertia(25.0 /*mass*/, 0.3 /*radius of gyration*/);
@@ -43,6 +45,7 @@ public class RollerRacer : Simulator
         x[10] = 0.0;  // deltaDot, steer rate
 
         SetRHSFunc(RHSFuncRRacer);
+        simBegun = false;
     }
 
     private void RHSFuncRRacer(double[] xx, double t, double[] ff)
@@ -58,6 +61,8 @@ public class RollerRacer : Simulator
         // calculate some trig functions here, so you only have to do it once
         double cosPsi = Math.Cos(psi);
         double sinPsi = Math.Sin(psi);
+        double cosDelta = Math.Cos(delta);
+        double sinDelta = Math.Sin(delta);
         double cosPsiPlusDelta = Math.Cos(psi + delta);
         double sinPsiPlusDelta = Math.Sin(psi + delta);
 
@@ -75,6 +80,19 @@ public class RollerRacer : Simulator
         ff[8] = 0.0;
         ff[9] = deltaDot;
         ff[10] = -kDDelta*deltaDot -kPDelta*(delta - deltaDes);
+
+        simBegun = true;
+    }
+
+    //------------------------------------------------------------------------
+    // SetInitialSpeed: Sets the initial speed of the vehicle. Must be set
+    //          before simulation has begun.
+    //------------------------------------------------------------------------
+    public void SetInitalSpeed(double val)
+    {
+        if(simBegun) return;
+
+        x[1] = val;
     }
 
     //------------------------------------------------------------------------
@@ -182,6 +200,33 @@ public class RollerRacer : Simulator
     {
         get{
             return x[8];
+        }
+    }
+
+    public double Speed
+    {
+        get{
+            // ######## You have to write this part ################
+
+            return(-1.21212121);
+        }
+    }
+
+    public double SlipRateFront
+    {
+        get{
+            // ######## You have to write this part ################
+
+            return(-1.21212121);
+        }
+    }
+
+    public double SlipRateRear
+    {
+        get{
+            // ######## You have to write this part ################
+
+            return(-1.21212121);
         }
     }
 }
