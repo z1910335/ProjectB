@@ -23,6 +23,10 @@ public partial class Cart : Node3D
 
 	Vector3 cgLoc;         // location of cg pojected on y=0 plane
 	Vector3 rotVec;        // rotation about vertical axis
+	Vector3 rotWhL;        // rotation vector for left wheel
+	Vector3 rotWhR;        //                     right wheel
+	Vector3 rotWhF;        //                     front wheel
+	Vector3 rotSteer;      // rotation vector for steer axis
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -47,8 +51,12 @@ public partial class Cart : Node3D
 		wheelFrameF = GetNode<Node3D>("CartFrame/SteerFrame/WheelFrameF");
 		BuildModel();
 		
-		cgLoc = new Vector3();
+		cgLoc  = new Vector3();
 		rotVec = new Vector3();
+		rotWhL = new Vector3();
+		rotWhR = new Vector3();
+		rotWhF = new Vector3();
+		rotSteer = new Vector3();
 	}
 
 	
@@ -148,17 +156,26 @@ public partial class Cart : Node3D
 	}
 
 	//------------------------------------------------------------------------
-	// SetLocation: Sets (x,z) center of mass coordinates and heading angle
-	//                                              in radians.
+	// SetLoc: Sets (xG,zG) center of mass coordinates, heading angle (rad),
+	//         wheel angles (rad), and steer angle
 	//------------------------------------------------------------------------
-	public void SetLocation(float xG, float zG, float hdg)
+	public void SetLoc(float xG, float zG, float hdg, float thL, float thR,
+		float thF, float stAngle)
 	{
 		cgLoc.X = xG;
 		cgLoc.Z = zG;
 		rotVec.Y = hdg;
+		rotWhL.Z = thL;
+		rotWhR.Z = thR;
+		rotWhF.Z = thF;
+		rotSteer.Y = stAngle;
 
 		Position = cgLoc;
 		Rotation = rotVec;
+		wheelFrameL.Rotation = rotWhL;
+		wheelFrameR.Rotation = rotWhR;
+		wheelFrameF.Rotation = rotWhF;
+		steerFrame.Rotation = rotSteer;
 	}
 
 	//------------------------------------------------------------------------
