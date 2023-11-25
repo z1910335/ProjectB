@@ -21,16 +21,20 @@ public class RollerRacer : Simulator
     double kDDelta;  // derivative gain for steer filter
     double deltaDes; // desired steer angle
 
+    double muS;      // static frict coeff, lower bound
+
     bool simBegun;   // indicates whether simulation has begun
 
     public RollerRacer() : base(11)
     {
+        g = 9.81;
+        muS = 0.9;
         SetInertia(25.0 /*mass*/, 0.3 /*radius of gyration*/);
         SetGeometry(1.3 /*wheel base*/, 0.6 /* cg dist from axle*/,
             0.3 /*caster dist*/, 1.0 /*wheel sep*/, 0.5*0.75 /*Rwheel radius*/,
             0.15 /*steered wheel radius*/);
-        kPDelta = 100.0;
-        kDDelta = 10.0;
+        kPDelta = 10.0;
+        kDDelta = 4.0;
 
         x[0] = 0.0;   // x coordinate of center of mass
         x[1] = 0.0;   // xDot, time derivative of x
@@ -231,6 +235,15 @@ public class RollerRacer : Simulator
     }
 
     public double SlipRateRear
+    {
+        get{
+            // ######## You have to write this part ################
+
+            return(-1.21212121);
+        }
+    }
+
+    public double FontFrictionFactor
     {
         get{
             // ######## You have to write this part ################
