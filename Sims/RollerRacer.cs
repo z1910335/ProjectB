@@ -25,6 +25,18 @@ public class RollerRacer : Simulator
 
     bool simBegun;   // indicates whether simulation has begun
 
+    double kPSlip; 
+
+        double xDoubleD;
+        double zDoubleD;
+        double psiDoubleD;
+        double Fb;
+        double Ff;
+
+        double Velocity;
+        double KE;
+
+
     public RollerRacer() : base(11)
     {
         g = 9.81;
@@ -35,6 +47,7 @@ public class RollerRacer : Simulator
             0.15 /*steered wheel radius*/);
         kPDelta = 10.0;
         kDDelta = 4.0;
+        kPSlip = 2.0;
 
         x[0] = 0.0;   // x coordinate of center of mass
         x[1] = 0.0;   // xDot, time derivative of x
@@ -62,6 +75,7 @@ public class RollerRacer : Simulator
         double delta = xx[9];
         double deltaDot = xx[10];
 
+
         // calculate some trig functions here, so you only have to do it once
         double cosPsi = Math.Cos(psi);
         double sinPsi = Math.Sin(psi);
@@ -69,21 +83,67 @@ public class RollerRacer : Simulator
         double sinDelta = Math.Sin(delta);
         double cosPsiPlusDelta = Math.Cos(psi + delta);
         double sinPsiPlusDelta = Math.Sin(psi + delta);
+        double DeltaDoubleD = -kDDelta * deltaDot - kPSlip * (delta - deltaDes);
+        Ig = 25.0 * 0.15 * 0.15; //Moment of Inertia
+
 
         // #### You will do some hefty calculations here
+        LinAlgEq sys = new LinAlgEq(5);
+        sys.A[0][0] = m;
+        sys.A[0][1] = 0;
+        sys.A[0][2] = 0;
+        sys.A[0][3] = -sinPsi;
+        sys.A[0][4] = -sinPsiPlusDelta;
+        sys.A[1][0] = 0;
+        sys.A[1][1] = m;
+        sys.A[1][2] = 0;
+        sys.A[1][3] = -cosPsi;
+        sys.A[1][4] = -cosPsiPlusDelta;
+        sys.A[2][0] = 0;
+        sys.A[2][1] = 0;
+        sys.A[2][2] = m;
+        sys.A[2][3] = -b;
+        sys.A[2][4] = h*cosDelta-d;
+        sys.A[3][0] = sinPsi;
+        sys.A[3][1] = cosPsi;
+        sys.A[3][2] = b;
+        sys.A[3][3] = 0;
+        sys.A[3][4] = 0;
+        sys.A[4][0] = sinPsiPlusDelta;
+        sys.A[4][1] = cosPsiPlusDelta;
+        sys.A[4][2] = d - h * cosDelta;
+        sys.A[4][3] = 0;
+        sys.A[4][4] = 0;
 
-        // #### Right sides are zero for now. You will fix
-        ff[0] = 0.0;
-        ff[1] = 0.0;
-        ff[2] = 0.0;
-        ff[3] = 0.0;
-        ff[4] = 0.0;
-        ff[5] = 0.0;
-        ff[6] = 0.0;
-        ff[7] = 0.0;
-        ff[8] = 0.0;
+        sys.b[0] = 0.0;
+        sys.b[1] = 0.0;
+        sys.b[2] = 0.0;
+        sys.b[3] = -xDot * psiDot * cosPsi + zDot * psiDot * sinPsi;
+        sys.b[4] = -DeltaDoubleD * d - xDot * (psiDot * deltaDot) * cosPsiPlusDelta + zDot * (psiDot + deltaDot) * sinPsiPlusDelta - h * psiDot * deltaDot * sinDelta;
+
+        sys.SolveGauss();
+        sys.sol[0]= xDoubleD;
+        sys.sol[1]= zDoubleD;
+        sys.sol[2]= psiDoubleD;
+        sys.sol[3]= Fb;
+        sys.sol[4]= Ff;
+
+
+        // Equations of Motion
+        ff[0] = xDot;
+        ff[1] = (Fb * sinPsi + Ff * sinPsiPlusDelta) / m;
+        ff[2] = zDot;
+        ff[3] = (Fb * cosPsi + Ff * cosPsiPlusDelta) / m;
+        ff[4] = psiDot;
+        ff[5] = (Fb * b - Ff * (h * cosDelta - d)) / Ig;
+        ff[6] = (-xDot * cosPsi + zDot * sinPsi + c * psiDot) / rW;
+        ff[7] = (-xDot * cosPsi + zDot * sinPsi - c * psiDot) / rW;
+        ff[8] = (-xDot * cosPsiPlusDelta + zDot * sinPsiPlusDelta - h * psiDot * sinDelta) / rWs;
         ff[9] = deltaDot;
         ff[10] = -kDDelta*deltaDot -kPDelta*(delta - deltaDes);
+
+        Velocity = Math.Abs((xDot*xDot) + (zDot*zDot));
+        KE = (0.5) * m * Velocity * Velocity;
 
         simBegun = true;
     }
@@ -212,7 +272,7 @@ public class RollerRacer : Simulator
         get{
             // ######## You have to write this part ################
 
-            return(-1.21212121);
+            return(Velocity);
         }
     }
 
@@ -221,7 +281,7 @@ public class RollerRacer : Simulator
         get{
             // ######## You have to write this part ################
 
-            return(-1.21212121);
+            return(KE);
         }
     }
 

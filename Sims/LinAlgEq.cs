@@ -6,7 +6,7 @@ using System;
 public class LinAlgEq
 {
     private int n = 3;       // number of algebraic equations (number of unknowns too)
-    private double[][] _A;   // coefficient matrix
+    private double[][] _A;   // coefficient matrix --- [][] is a jagged array
     private double[] _b;     // right hand side
     private double[][] M;    // augmented matrix
     private double[] _x;     // solution
@@ -60,7 +60,7 @@ public class LinAlgEq
     public void SolveGauss()
     {
         // form augmented matrix
-        int i, j, k;
+        int i, j; // I don't think k is supposed to be here... 
         for(i=0;i<n;++i)
         {
             for(j=0;j<n;++j)
@@ -70,17 +70,71 @@ public class LinAlgEq
             M[i][n] = _b[i];
         }
 
-        // perform Gauss elimination
-        // ######## YOU MUST WRITE YOUR GAUSS ELIMINATION CODE HERE
-        // ######## FIRST, GET IT WORKING WITHOUT PIVOTING
-        // ########     ONCE YOU GET IT WORKING WITHOUT PIVOTING, 
-        // ########     THEN YOU CAN IMPLEMENT PIVOTING WITH ONE 
-        // ########     WELL-PLACED CALL TO THE pivotRow METHOD BELOW.
-        
-
-        // perform back substitution
-        // ######## YOU MUST WRITE YOUR BACK SUBSTITUTION CODE HERE
+        Console.WriteLine("Form Augmented Matrix: ");
+        PrintMatrix(M);
+        GaussElimination(M);
     }
+
+    private void GaussElimination(double[][] M)
+    {
+        int rowCount = M.Length;
+        int colCount = M[0].Length - 1; // Last column is the augmented column
+
+        for (int pivotRow = 0; pivotRow < rowCount - 1; pivotRow++)
+        {
+        double[] holder;
+        double maxElem = Math.Abs(M[pivotRow][pivotRow]);
+        int rowIdx = pivotRow;
+        int i;
+
+        for(i = pivotRow+1; i<rowCount; ++i)
+        {
+            // find largest element in jth column
+            if(Math.Abs(M[i][pivotRow])>maxElem)
+            {
+                maxElem = Math.Abs(M[i][pivotRow]);
+                rowIdx = i;
+            }
+        }
+
+        // swap rows
+        if(rowIdx != pivotRow)
+        {
+            holder = M[pivotRow];
+            M[pivotRow] = M[rowIdx];
+            M[rowIdx] = holder;
+            //Console.WriteLine("Swap " + j.ToString());
+        }
+
+            // Perform elimination
+            for (int currentRow = pivotRow + 1; currentRow < rowCount; currentRow++)
+            {
+                double factor = M[currentRow][pivotRow] / M[pivotRow][pivotRow];
+
+                for (int currentCol = pivotRow; currentCol <= colCount; currentCol++)
+                {
+                    M[currentRow][currentCol] -= factor * M[pivotRow][currentCol];
+                }
+            }
+        }
+
+        // Back substitution
+        for (int row = rowCount - 1; row >= 0; row--)
+        {
+            double sum = 0;
+
+            for (int col = row + 1; col < colCount; col++)
+            {
+                sum += M[row][col] * M[col][colCount];
+            }
+
+            M[row][colCount] = (M[row][colCount] - sum) / M[row][row];
+        }
+
+        Console.WriteLine("\nMatrix after Gaussian Elimination");
+        PrintMatrix(M);
+    }
+
 
     //--------------------------------------------------------------------
     // PivotRow
@@ -110,6 +164,7 @@ public class LinAlgEq
             M[rowIdx] = holder;
             //Console.WriteLine("Swap " + j.ToString());
         }
+
     }
 
     //--------------------------------------------------------------------
@@ -169,4 +224,23 @@ public class LinAlgEq
             return _x;
         }
     }
+
+
+    static void PrintMatrix(double[][] M)
+    {
+        int rowCount = M.Length;
+        int colCount = M[0].Length;
+
+        for (int row = 0; row < rowCount; row++)
+        {
+            for (int col = 0; col < colCount; col++)
+            {
+                Console.Write($"{M[row][col],8:F4} ");
+            }
+            Console.WriteLine();
+        }
+    }
+
+
+
 }
