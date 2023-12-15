@@ -106,8 +106,9 @@ public partial class RacerScene : Node3D
 	{
 		dataDisplay.SetValue(1, (float)racer.Speed);
 		dataDisplay.SetValue(2, (float)racer.KineticEnergy);
-		dataDisplay.SetValue(4, (float)racer.SlipRateRear);
 		dataDisplay.SetValue(3, (float)racer.SlipRateFront);
+		dataDisplay.SetValue(4, (float)racer.SlipRateRear);
+
 
 		cart.SetLoc((float)racer.xG, (float)racer.zG, (float)racer.Heading,
 					(float)racer.WheelAngleL, (float)racer.WheelAngleR,

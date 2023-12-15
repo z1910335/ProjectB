@@ -83,7 +83,7 @@ public class RollerRacer : Simulator
         double sinDelta = Math.Sin(delta);
         double cosPsiPlusDelta = Math.Cos(psi + delta);
         double sinPsiPlusDelta = Math.Sin(psi + delta);
-        double DeltaDoubleD = -kDDelta * deltaDot - kPSlip * (delta - deltaDes);
+        double DeltaDoubleD = -kDDelta * deltaDot - kPSlip * (delta - deltaDes); 
 
 
         // #### You will do some hefty calculations here
@@ -126,7 +126,6 @@ public class RollerRacer : Simulator
         psiDoubleD = sys.sol[2];
         Fb = sys.sol[3];
         Ff = sys.sol[4];
-
 
         // Equations of Motion
         ff[0] = xDot;
@@ -316,7 +315,7 @@ public class RollerRacer : Simulator
         get{
             // ######## You have to write this part ################
 
-            return(2.0);
+            return(10.0);
         }
         
         
@@ -327,7 +326,7 @@ public class RollerRacer : Simulator
         get{
             // ######## You have to write this part ################
 
-            return(2.0);
+            return(10.0);
         }
         
     }

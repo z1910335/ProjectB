@@ -35,7 +35,7 @@ public class Simulator
         f[2] = new double[n];
         f[3] = new double[n];
 
-        rhsFunc = SetRHSFunc;
+        rhsFunc = nothing;
     }
 
     //--------------------------------------------------------------------
