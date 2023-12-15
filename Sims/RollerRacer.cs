@@ -84,7 +84,7 @@ public class RollerRacer : Simulator
         double cosPsiPlusDelta = Math.Cos(psi + delta);
         double sinPsiPlusDelta = Math.Sin(psi + delta);
         double DeltaDoubleD = -kDDelta * deltaDot - kPSlip * (delta - deltaDes);
-        Ig = 25.0 * 0.15 * 0.15; //Moment of Inertia
+        //Ig = 25.0 * 0.15 * 0.15; //Moment of Inertia
 
 
         // #### You will do some hefty calculations here
