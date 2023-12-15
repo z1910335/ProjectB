@@ -84,7 +84,6 @@ public class RollerRacer : Simulator
         double cosPsiPlusDelta = Math.Cos(psi + delta);
         double sinPsiPlusDelta = Math.Sin(psi + delta);
         double DeltaDoubleD = -kDDelta * deltaDot - kPSlip * (delta - deltaDes);
-        //Ig = 25.0 * 0.15 * 0.15; //Moment of Inertia
 
 
         // #### You will do some hefty calculations here
@@ -122,11 +121,11 @@ public class RollerRacer : Simulator
         sys.b[4] = -DeltaDoubleD * d - xDot * (psiDot * deltaDot) * cosPsiPlusDelta + zDot * (psiDot + deltaDot) * sinPsiPlusDelta - h * psiDot * deltaDot * sinDelta;
 
         sys.SolveGauss();
-        sys.sol[0]= xDoubleD;
-        sys.sol[1]= zDoubleD;
-        sys.sol[2]= psiDoubleD;
-        sys.sol[3]= Fb;
-        sys.sol[4]= Ff;
+        xDoubleD = sys.sol[0];
+        zDoubleD = sys.sol[1];
+        psiDoubleD = sys.sol[2];
+        Fb = sys.sol[3];
+        Ff = sys.sol[4];
 
 
         // Equations of Motion
@@ -223,12 +222,18 @@ public class RollerRacer : Simulator
         get{
             return x[9];
         }
+        set{
+            x[9] = value;
+        }
     }
 
     public double xG
     {
         get{
             return x[0];
+        }
+        set{
+            x[0] = value;
         }
     }
 
@@ -237,12 +242,18 @@ public class RollerRacer : Simulator
         get{
             return x[2];
         }
+        set{
+            x[2] = value;
+        }
     }
 
     public double Heading
     {
         get{
             return x[4];
+        }
+        set{
+            x[4] = value;
         }
     }
 
@@ -251,6 +262,9 @@ public class RollerRacer : Simulator
         get{
             return x[6];
         }
+        set{
+            x[6] = value;
+        }
     }
 
     public double WheelAngleR
@@ -258,12 +272,18 @@ public class RollerRacer : Simulator
         get{
             return x[7];
         }
+        set{
+            x[7] = value;
+        }
     }
 
     public double WheelAngleF
     {
         get{
             return x[8];
+        }
+        set{
+            x[8] = value;
         }
     }
 
@@ -274,6 +294,9 @@ public class RollerRacer : Simulator
 
             return(Velocity);
         }
+        set{
+            Velocity = value;
+        }
     }
 
     public double KineticEnergy
@@ -283,6 +306,9 @@ public class RollerRacer : Simulator
 
             return(KE);
         }
+        set{
+            KE = value;
+        }
     }
 
     public double SlipRateFront
@@ -290,8 +316,10 @@ public class RollerRacer : Simulator
         get{
             // ######## You have to write this part ################
 
-            return(-1.21212121);
+            return(2.0);
         }
+        
+        
     }
 
     public double SlipRateRear
@@ -299,8 +327,9 @@ public class RollerRacer : Simulator
         get{
             // ######## You have to write this part ################
 
-            return(-1.21212121);
+            return(2.0);
         }
+        
     }
 
     public double FontFrictionFactor
@@ -308,7 +337,7 @@ public class RollerRacer : Simulator
         get{
             // ######## You have to write this part ################
 
-            return(-1.21212121);
+            return(10.0);
         }
     }
 }

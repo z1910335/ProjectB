@@ -5,7 +5,7 @@ using System;
 
 public class LinAlgEq
 {
-    private int n = 3;       // number of algebraic equations (number of unknowns too)
+    private int n = 5;       // number of algebraic equations (number of unknowns too)
     private double[][] _A;   // coefficient matrix --- [][] is a jagged array
     private double[] _b;     // right hand side
     private double[][] M;    // augmented matrix
@@ -14,7 +14,7 @@ public class LinAlgEq
     //--------------------------------------------------------------------
     // Constructor for the class.
     //--------------------------------------------------------------------
-    public LinAlgEq(int nn = 3)
+    public LinAlgEq(int nn = 5)
     {
         _b = new double[1];   // these three lines get rid of the warning
         _A = new double[1][];

@@ -108,12 +108,10 @@ public partial class RacerScene : Node3D
 		dataDisplay.SetValue(2, (float)racer.KineticEnergy);
 		dataDisplay.SetValue(4, (float)racer.SlipRateRear);
 		dataDisplay.SetValue(3, (float)racer.SlipRateFront);
-		cart.SetLoc(
-			//0.0f, 0.0f, 0.0f, // need to update this with other states
-			//0.0f, 0.0f, 0.0f,
-			(float)racer.xG,(float)racer.zG, (float)racer.Heading,
-			(float)racer.WheelAngleL, (float)racer.WheelAngleR,
-			(float)racer.WheelAngleF, (float)racer.SteerAngle);
+
+		cart.SetLoc((float)racer.xG, (float)racer.zG, (float)racer.Heading,
+					(float)racer.WheelAngleL, (float)racer.WheelAngleR,
+					(float)racer.WheelAngleF, (float)racer.SteerAngle);
 	}
 
     //------------------------------------------------------------------------
